@@ -1,0 +1,26 @@
+# データクラス設計
+
+User:
+  id: string
+  name: string
+  email: string?
+
+# ノードは、アイデアや情報の単位を表す。サブノードを持つことで階層構造を形成できる
+# また、一つのノードは、サブノードとエッジで構成されたグラフを内包する
+# Tは汎用的なコンテンツ型を表すテンプレートパラメータ。あらゆる種類の情報を格納可能。画像やファイルを持つ場合は、そのURIやメタデータを含むオブジェクトにすることも可能
+Node<T>:
+  id: string
+  content: T # Template型で柔軟に拡張可能
+  parentNodes: Node<T>[] # 親ノード（複数可、空ならroot）
+  childNodes: Node<T>[] # 子ノード（複数可）。同じグラフ内のノードを指す
+  subNodes: Node<T>[] # サブノード（複数可）。この中のノードが一つグラフを構成する
+  edges: Edge[] # サブノード間のエッジ
+  author: User
+  createdAt: Date
+  updatedAt: Date
+
+Edge:
+  id: string
+  sourceNodeId: string
+  targetNodeId: string
+  belongingNodes: Node<T>[] # このエッジが所属するノード（複数可）
