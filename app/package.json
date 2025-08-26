@@ -1,0 +1,36 @@
+{
+  "name": "graph-idea-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for Graph Idea application",
+  "main": "index.js",
+  "scripts": {
+    "dev": "remix dev",
+    "build": "remix build",
+    "start": "remix start",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.14.0",
+    "@remix-run/node": "^2.8.1",
+    "@remix-run/react": "^2.8.1",
+    "@remix-run/serve": "^2.8.1",
+    "@tanstack/react-query": "^5.17.0",
+    "d3": "^7.9.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "webcola": "^3.4.0",
+    "zustand": "^4.4.7"
+  },
+  "devDependencies": {
+    "@storybook/react": "^7.6.0",
+    "@storybook/react-vite": "^7.6.0",
+    "@types/d3": "^7.4.3",
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "prisma": "^6.14.0",
+    "storybook": "^7.6.0",
+    "typescript": "^5.3.3",
+    "vite": "^5.1.0"
+  }
+}
