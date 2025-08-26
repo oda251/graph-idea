@@ -1,6 +1,6 @@
 import React from "react";
-import { Graph } from "../src/widgets/graph";
-import { IdeaNode } from "../src/entities/IdeaNode";
+import { Graph } from "@/widgets/graph";
+import { IdeaNode } from "@/entities/IdeaNode";
 
 export default {
   title: "Widgets/Graph",
@@ -91,7 +91,7 @@ const createLargeGraph = () => {
         edges.push({
           sourceNodeId: i.toString(),
           targetNodeId: target.toString(),
-          belongingNodes: []
+          belongingNodes: [],
         });
       }
     }
@@ -112,7 +112,9 @@ const createLargeGraph = () => {
   return parent;
 };
 
-export const LargeGraph = () => <Graph parentNode={createLargeGraph()} width={800} height={600} />;
+export const LargeGraph = () => (
+  <Graph parentNode={createLargeGraph()} width={800} height={600} />
+);
 
 // Star graph - one central node connected to all others
 const createStarGraph = () => {
@@ -155,7 +157,7 @@ const createStarGraph = () => {
     edges.push({
       sourceNodeId: "center",
       targetNodeId: `peripheral-${i}`,
-      belongingNodes: []
+      belongingNodes: [],
     });
   }
 
@@ -174,7 +176,9 @@ const createStarGraph = () => {
   return parent;
 };
 
-export const StarGraph = () => <Graph parentNode={createStarGraph()} width={600} height={600} />;
+export const StarGraph = () => (
+  <Graph parentNode={createStarGraph()} width={600} height={600} />
+);
 
 // Tree graph - hierarchical structure
 const createTreeGraph = () => {
@@ -213,7 +217,7 @@ const createTreeGraph = () => {
     edges.push({
       sourceNodeId: "root",
       targetNodeId: `level2-${i}`,
-      belongingNodes: []
+      belongingNodes: [],
     });
   }
 
@@ -235,7 +239,7 @@ const createTreeGraph = () => {
       edges.push({
         sourceNodeId: `level2-${i}`,
         targetNodeId: `level3-${i}-${j}`,
-        belongingNodes: []
+        belongingNodes: [],
       });
     }
   }
@@ -255,7 +259,9 @@ const createTreeGraph = () => {
   return parent;
 };
 
-export const TreeGraph = () => <Graph parentNode={createTreeGraph()} width={700} height={500} />;
+export const TreeGraph = () => (
+  <Graph parentNode={createTreeGraph()} width={700} height={500} />
+);
 
 // Complete graph - all nodes connected to each other
 const createCompleteGraph = () => {
@@ -285,7 +291,7 @@ const createCompleteGraph = () => {
       edges.push({
         sourceNodeId: i.toString(),
         targetNodeId: j.toString(),
-        belongingNodes: []
+        belongingNodes: [],
       });
     }
   }
@@ -305,7 +311,9 @@ const createCompleteGraph = () => {
   return parent;
 };
 
-export const CompleteGraph = () => <Graph parentNode={createCompleteGraph()} width={600} height={600} />;
+export const CompleteGraph = () => (
+  <Graph parentNode={createCompleteGraph()} width={600} height={600} />
+);
 
 // Chain graph - linear structure
 const createChainGraph = () => {
@@ -333,7 +341,7 @@ const createChainGraph = () => {
       edges.push({
         sourceNodeId: (i - 1).toString(),
         targetNodeId: i.toString(),
-        belongingNodes: []
+        belongingNodes: [],
       });
     }
   }
@@ -353,7 +361,9 @@ const createChainGraph = () => {
   return parent;
 };
 
-export const ChainGraph = () => <Graph parentNode={createChainGraph()} width={800} height={300} />;
+export const ChainGraph = () => (
+  <Graph parentNode={createChainGraph()} width={800} height={300} />
+);
 
 // Empty graph - no nodes
 const createEmptyGraph = () => {
@@ -375,7 +385,9 @@ const createEmptyGraph = () => {
   return parent;
 };
 
-export const EmptyGraph = () => <Graph parentNode={createEmptyGraph()} width={400} height={300} />;
+export const EmptyGraph = () => (
+  <Graph parentNode={createEmptyGraph()} width={400} height={300} />
+);
 
 // Single node
 const createSingleNodeGraph = () => {
@@ -409,4 +421,6 @@ const createSingleNodeGraph = () => {
   return parent;
 };
 
-export const SingleNode = () => <Graph parentNode={createSingleNodeGraph()} width={400} height={300} />;
+export const SingleNode = () => (
+  <Graph parentNode={createSingleNodeGraph()} width={400} height={300} />
+);

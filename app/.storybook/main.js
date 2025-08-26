@@ -1,6 +1,9 @@
-import { dirname, join } from "path";
+import { dirname, resolve } from "path";
+import { fileURLToPath } from "url";
 
 /** @type { import('@storybook/react-vite').StorybookConfig } */
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 const config = {
   stories: [
     "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)",
@@ -26,6 +29,13 @@ const config = {
       propFilter: (prop) =>
         prop.parent ? !/node_modules/.test(prop.parent.fileName) : true,
     },
+  },
+  viteFinal: (config) => {
+    config.resolve.alias = {
+      ...(config.resolve.alias || {}),
+      "@": resolve(__dirname, "../src"),
+    };
+    return config;
   },
 };
 
