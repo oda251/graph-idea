@@ -1,4 +1,4 @@
-import type { IdeaNode, GraphNode } from "@/entities/IdeaNode";
+import type { IdeaNode, GraphNode } from "app/entities/IdeaNode";
 import { type SimulationLinkDatum } from "d3-force";
 
 export type Edge = {

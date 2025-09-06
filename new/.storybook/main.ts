@@ -16,6 +16,7 @@ const config: StorybookConfig = {
     "@storybook/addon-a11y",
     "@storybook/addon-vitest",
     "@storybook/addon-styling-webpack",
+    "storybook-dark-mode",
   ],
   framework: {
     name: "@storybook/react-vite",
@@ -25,7 +26,7 @@ const config: StorybookConfig = {
     if (config.resolve)
       config.resolve.alias = {
         ...(config.resolve.alias || {}),
-        "@": resolve(__dirname, "../src"),
+        "@": resolve(__dirname, "../app"),
       };
     return config;
   },

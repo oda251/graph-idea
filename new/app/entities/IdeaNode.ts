@@ -1,5 +1,5 @@
-import type { User } from "@/entities/User";
-import type { Edge } from "@/entities/Edge";
+import type { User } from "app/entities/User";
+import type { Edge } from "app/entities/Edge";
 import { type SimulationNodeDatum } from "d3-force";
 
 export type IdeaNode = {

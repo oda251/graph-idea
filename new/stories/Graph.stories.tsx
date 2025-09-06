@@ -1,6 +1,6 @@
 import React from "react";
-import { Graph } from "@/widgets/graph";
-import { type IdeaNode } from "@/entities/IdeaNode";
+import { Graph } from "app/widgets/graph";
+import { type IdeaNode } from "app/entities/IdeaNode";
 
 export default {
   title: "Widgets/Graph",
