@@ -15,15 +15,15 @@ export const Node: React.FC<NodeProps> = ({
 }) => {
   return (
     <div
-      className={`group bg-base border border-primary shadow-md rounded-xl w-32 h-32 flex flex-col justify-center cursor-pointer select-none text-primary hover:border-primary-emphasis hover:text-primary-emphasis hover:scale-110 transition-all focus:outline-none ${className ?? ""}`}
+      className={`group bg-base border-primary text-primary hover:border-primary-emphasis hover:text-primary-emphasis flex h-32 w-32 cursor-pointer flex-col justify-center rounded-xl border shadow-md transition-all select-none hover:scale-110 focus:outline-none ${className ?? ""}`}
       onMouseEnter={onHover}
       onClick={onClick}
       tabIndex={0}
     >
-      <div className="h-full flex flex-col justify-center px-2">
+      <div className="flex h-full flex-col justify-center px-2">
         <h2 className="font-semibold break-words">{node.content}</h2>
       </div>
-      <div className="border-t border-primary group-hover:border-primary-emphasis transition-all w-full flex px-2 py-1">
+      <div className="border-primary group-hover:border-primary-emphasis flex w-full border-t px-2 py-1 transition-all">
         <p className="text-center text-sm">{node.author.name}</p>
       </div>
     </div>

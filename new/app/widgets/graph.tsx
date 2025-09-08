@@ -8,13 +8,12 @@ import {
   forceCollide,
   type SimulationLinkDatum,
 } from "d3-force";
-import { drag, type D3DragEvent } from "d3-drag";
+import { drag } from "d3-drag";
 import { select } from "d3-selection";
 import { createRoot } from "react-dom/client";
 import type { GraphNode, IdeaNode } from "app/entities/IdeaNode";
 import { Node } from "app/widgets/node";
 import { type GraphLink } from "app/entities/Edge";
-import type { S } from "vitest/dist/chunks/config.d.D2ROskhv.js";
 
 export type GraphProps = {
   parentNode: IdeaNode;
@@ -37,11 +36,11 @@ export const Graph: React.FC<GraphProps> = ({
   // useMemoを使って、ノードとリンクをメモ化
   const nodes: GraphNode[] = useMemo(
     () => parentNode.childNodes,
-    [parentNode.childNodes]
+    [parentNode.childNodes],
   );
   const links: GraphLink[] = useMemo(
     () => parentNode.edges,
-    [parentNode.edges]
+    [parentNode.edges],
   );
 
   // シミュレーションインスタンスをuseRefで保持
@@ -115,7 +114,7 @@ export const Graph: React.FC<GraphProps> = ({
           if (!event.active) simulation.alphaTarget(0);
           event.subject.fx = null;
           event.subject.fy = null;
-        })
+        }),
     );
 
     // シミュレーションのtickイベントハンドラ
@@ -139,7 +138,7 @@ export const Graph: React.FC<GraphProps> = ({
         "link",
         forceLink<GraphNode, SimulationLinkDatum<GraphNode>>(filledLinks)
           .id((d) => d.id!)
-          .distance(LINK_DISTANCE)
+          .distance(LINK_DISTANCE),
       )
       .alpha(1) // シミュレーションを再加熱
       .restart();
