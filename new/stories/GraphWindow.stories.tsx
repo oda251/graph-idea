@@ -1,10 +1,17 @@
-import React from "react";
-import { Graph } from "app/widgets/graph";
+import { GraphWindow } from "app/widgets/graphWindow";
 import { type IdeaNode } from "app/entities/IdeaNode";
+import type { StoryFn } from "@storybook/react-vite";
 
 export default {
-  title: "Widgets/Graph",
-  component: Graph,
+  title: "Widgets/GraphWindow",
+  component: GraphWindow,
+  decorators: [
+    (Story: StoryFn) => (
+      <div style={{ width: "100%", height: "500px" }}>
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 const user = { id: "u1", name: "Alice" };
@@ -58,9 +65,9 @@ const parent: IdeaNode = {
   updatedAt: now,
 };
 
-export const Default = () => <Graph parentNode={parent} />;
+export const Default = () => <GraphWindow parentNode={parent} />;
 
-// Large graph with many nodes
+// Large GraphWindow with many nodes
 const createLargeGraph = () => {
   const user = { id: "u1", name: "Alice" };
   const now = new Date();
@@ -99,7 +106,7 @@ const createLargeGraph = () => {
 
   const parent: IdeaNode = {
     id: "0",
-    content: "Large Graph Parent",
+    content: "Large GraphWindow Parent",
     parentNodes: [],
     childNodes: nodes,
     subNodes: [],
@@ -112,11 +119,9 @@ const createLargeGraph = () => {
   return parent;
 };
 
-export const LargeGraph = () => (
-  <Graph parentNode={createLargeGraph()} width={800} height={600} />
-);
+export const LargeGraph = () => <GraphWindow parentNode={createLargeGraph()} />;
 
-// Star graph - one central node connected to all others
+// Star GraphWindow - one central node connected to all others
 const createStarGraph = () => {
   const user = { id: "u1", name: "Alice" };
   const now = new Date();
@@ -163,7 +168,7 @@ const createStarGraph = () => {
 
   const parent: IdeaNode = {
     id: "0",
-    content: "Star Graph Parent",
+    content: "Star GraphWindow Parent",
     parentNodes: [],
     childNodes: nodes,
     subNodes: [],
@@ -176,11 +181,9 @@ const createStarGraph = () => {
   return parent;
 };
 
-export const StarGraph = () => (
-  <Graph parentNode={createStarGraph()} width={600} height={600} />
-);
+export const StarGraph = () => <GraphWindow parentNode={createStarGraph()} />;
 
-// Tree graph - hierarchical structure
+// Tree GraphWindow - hierarchical structure
 const createTreeGraph = () => {
   const user = { id: "u1", name: "Alice" };
   const now = new Date();
@@ -246,7 +249,7 @@ const createTreeGraph = () => {
 
   const parent: IdeaNode = {
     id: "0",
-    content: "Tree Graph Parent",
+    content: "Tree GraphWindow Parent",
     parentNodes: [],
     childNodes: nodes,
     subNodes: [],
@@ -259,11 +262,9 @@ const createTreeGraph = () => {
   return parent;
 };
 
-export const TreeGraph = () => (
-  <Graph parentNode={createTreeGraph()} width={700} height={500} />
-);
+export const TreeGraph = () => <GraphWindow parentNode={createTreeGraph()} />;
 
-// Complete graph - all nodes connected to each other
+// Complete GraphWindow - all nodes connected to each other
 const createCompleteGraph = () => {
   const user = { id: "u1", name: "Alice" };
   const now = new Date();
@@ -298,7 +299,7 @@ const createCompleteGraph = () => {
 
   const parent: IdeaNode = {
     id: "0",
-    content: "Complete Graph Parent",
+    content: "Complete GraphWindow Parent",
     parentNodes: [],
     childNodes: nodes,
     subNodes: [],
@@ -312,10 +313,10 @@ const createCompleteGraph = () => {
 };
 
 export const CompleteGraph = () => (
-  <Graph parentNode={createCompleteGraph()} width={600} height={600} />
+  <GraphWindow parentNode={createCompleteGraph()} />
 );
 
-// Chain graph - linear structure
+// Chain GraphWindow - linear structure
 const createChainGraph = () => {
   const user = { id: "u1", name: "Alice" };
   const now = new Date();
@@ -348,7 +349,7 @@ const createChainGraph = () => {
 
   const parent: IdeaNode = {
     id: "0",
-    content: "Chain Graph Parent",
+    content: "Chain GraphWindow Parent",
     parentNodes: [],
     childNodes: nodes,
     subNodes: [],
@@ -361,18 +362,16 @@ const createChainGraph = () => {
   return parent;
 };
 
-export const ChainGraph = () => (
-  <Graph parentNode={createChainGraph()} width={800} height={300} />
-);
+export const ChainGraph = () => <GraphWindow parentNode={createChainGraph()} />;
 
-// Empty graph - no nodes
+// Empty GraphWindow - no nodes
 const createEmptyGraph = () => {
   const user = { id: "u1", name: "Alice" };
   const now = new Date();
 
   const parent: IdeaNode = {
     id: "0",
-    content: "Empty Graph Parent",
+    content: "Empty GraphWindow Parent",
     parentNodes: [],
     childNodes: [],
     subNodes: [],
@@ -385,9 +384,7 @@ const createEmptyGraph = () => {
   return parent;
 };
 
-export const EmptyGraph = () => (
-  <Graph parentNode={createEmptyGraph()} width={400} height={300} />
-);
+export const EmptyGraph = () => <GraphWindow parentNode={createEmptyGraph()} />;
 
 // Single node
 const createSingleNodeGraph = () => {
@@ -422,5 +419,5 @@ const createSingleNodeGraph = () => {
 };
 
 export const SingleNode = () => (
-  <Graph parentNode={createSingleNodeGraph()} width={400} height={300} />
+  <GraphWindow parentNode={createSingleNodeGraph()} />
 );

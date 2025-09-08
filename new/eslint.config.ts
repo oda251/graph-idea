@@ -18,6 +18,7 @@ export default defineConfig([
     "stories",
     ".storybook",
     ".react-router",
+    "*.config.ts",
   ]),
   tseslint.configs.recommended,
   pluginReact.configs.flat.recommended,
@@ -29,6 +30,22 @@ export default defineConfig([
       },
     },
     rules: {
+      "@typescript-eslint/naming-convention": [
+        "error",
+        {
+          selector: "variable",
+          format: ["camelCase", "UPPER_CASE", "PascalCase"],
+          leadingUnderscore: "allow",
+        },
+        {
+          selector: "function",
+          format: ["camelCase", "PascalCase"],
+        },
+        {
+          selector: "typeLike",
+          format: ["PascalCase"],
+        },
+      ],
       "empty-object-pattern": "off",
       "react/jsx-uses-react": "off",
       "react/react-in-jsx-scope": "off",
