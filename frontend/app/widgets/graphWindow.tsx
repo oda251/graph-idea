@@ -1,6 +1,7 @@
 import { type IdeaNode } from "@/entities/IdeaNode";
 import { Graph } from "./graph";
 import { useState, useRef, useEffect } from "react";
+import { Sidebar } from "./sidebar";
 
 export type GraphWindowProps = {
   parentNode: IdeaNode;
@@ -39,6 +40,14 @@ export const GraphWindow: React.FC<GraphWindowProps> = (props) => {
 
   return (
     <div className="h-full w-full" ref={containerRef}>
+      <Sidebar position="left">
+        {/* ここにノード一覧やグラフ操作UIを追加予定 */}
+        <div className="border-b p-4 font-bold">ノード一覧</div>
+      </Sidebar>
+      <Sidebar position="right">
+        {/* ここにノード詳細やAI対話UIを追加予定 */}
+        <div className="border-b p-4 font-bold">ノード詳細</div>
+      </Sidebar>
       <Graph {...props} width={size.width} height={size.height} />
     </div>
   );

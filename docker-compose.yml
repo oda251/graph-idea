@@ -1,26 +1,108 @@
-version: '3.9'
 services:
-  db:
-    image: postgres:15
+  database:
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: graphidea
+      - COCKROACHDB_DATABASE=${COCKROACHDB_DATABASE}
+      - COCKROACHDB_USER=${COCKROACHDB_USER}
+      - COCKROACHDB_PASSWORD=${COCKROACHDB_PASSWORD}
     ports:
-      - "5432:5432"
+      - "${DB_PORT:-26257}:26257" # CockroachDB port
+      - "${DB_ADMIN_PORT:-28080}:8080" # Admin UI port
     volumes:
-      - db-data:/var/lib/postgresql/data
-  app:
-    build: ./app
-    command: ["npm", "run", "dev"]
-    volumes:
-      - ./app:/usr/src/app
+      - db-data:/cockroach/cockroach-data
+      - db-entrypoint:/docker-entrypoint-initdb.d
+    command: start-single-node --insecure --http-addr=0.0.0.0:8080
+  convex_backend:
+    container_name: convex_backend
+    image: ghcr.io/get-convex/convex-backend:latest
+    stop_grace_period: 10s
+    stop_signal: SIGINT
     ports:
-      - "3000:3000"
+      - "${PORT:-3210}:3210"
+      - "${SITE_PROXY_PORT:-3211}:3211"
+    volumes:
+      - data:/convex/data
     environment:
-      DATABASE_URL: postgres://postgres:postgres@db:5432/graphidea
+      ACTIONS_USER_TIMEOUT_SECS: ${ACTIONS_USER_TIMEOUT_SECS}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_REGION: ${AWS_REGION}
+      AWS_S3_DISABLE_CHECKSUMS: ${AWS_S3_DISABLE_CHECKSUMS}
+      AWS_S3_DISABLE_SSE: ${AWS_S3_DISABLE_SSE}
+      AWS_S3_FORCE_PATH_STYLE: ${AWS_S3_FORCE_PATH_STYLE}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_SESSION_TOKEN: ${AWS_SESSION_TOKEN}
+      CONVEX_CLOUD_ORIGIN: ${CONVEX_CLOUD_ORIGIN}
+      CONVEX_RELEASE_VERSION_DEV: ${CONVEX_RELEASE_VERSION_DEV}
+      CONVEX_SITE_ORIGIN: ${CONVEX_SITE_ORIGIN}
+      DATABASE_URL: ${DATABASE_URL}
+      DISABLE_BEACON: ${DISABLE_BEACON}
+      DOCUMENT_RETENTION_DELAY: ${DOCUMENT_RETENTION_DELAY}
+      DO_NOT_REQUIRE_SSL: ${DO_NOT_REQUIRE_SSL}
+      INSTANCE_NAME: ${INSTANCE_NAME}
+      INSTANCE_SECRET: ${INSTANCE_SECRET}
+      POSTGRES_URL: "${POSTGRES_URL:-postgresql://${COCKROACHDB_USER}:${COCKROACHDB_PASSWORD}@database:${DB_PORT}/${COCKROACHDB_DATABASE}?sslmode=disable}"
+      REDACT_LOGS_TO_CLIENT: ${REDACT_LOGS_TO_CLIENT}
+      RUST_BACKTRACE: ${RUST_BACKTRACE}
+      RUST_LOG: ${RUST_LOG}
+      S3_ENDPOINT_URL: ${S3_ENDPOINT_URL}
+      S3_STORAGE_EXPORTS_BUCKET: ${S3_STORAGE_EXPORTS_BUCKET}
+      S3_STORAGE_FILES_BUCKET: ${S3_STORAGE_FILES_BUCKET}
+      S3_STORAGE_MODULES_BUCKET: ${S3_STORAGE_MODULES_BUCKET}
+      S3_STORAGE_SEARCH_BUCKET: ${S3_STORAGE_SEARCH_BUCKET}
+      S3_STORAGE_SNAPSHOT_IMPORTS_BUCKET: ${S3_STORAGE_SNAPSHOT_IMPORTS_BUCKET}
+
+    healthcheck:
+      test: curl -f http://localhost:3210/version
+      interval: 5s
+      start_period: 10s
+
+  convex_dashboard:
+    container_name: convex_dashboard
+    # Change this to :${REV} if you want to pin to a specific version
+    image: ghcr.io/get-convex/convex-dashboard:latest
+    stop_grace_period: 10s
+    stop_signal: SIGINT
+    ports:
+      - "${DASHBOARD_PORT:-6791}:6791"
+    environment:
+      - NEXT_PUBLIC_DEPLOYMENT_URL=${NEXT_PUBLIC_DEPLOYMENT_URL}
     depends_on:
-      - db
+      convex_backend:
+        condition: service_healthy
+
+  localstack:
+    container_name: localstack
+    image: localstack/localstack:latest
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=s3
+      - DEBUG=1
+    volumes:
+      - ls-init-scripts:/etc/localstack/init/ready.d
+      - ls-data:/var/lib/localstack
 volumes:
   db-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./database/data
+      o: bind
+  db-entrypoint:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./database/entrypoint
+      o: bind
+  ls-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./localstack/data
+      o: bind
+  ls-init-scripts:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./localstack/init-scripts
+      o: bind
